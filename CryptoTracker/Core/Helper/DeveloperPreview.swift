@@ -11,6 +11,8 @@ class DeveloperPreview {
     static let shared = DeveloperPreview()
     private init() { }
     
+    let homeViewModel = HomeViewModel()
+    
     let coin = Coin(
         id: "bitcoin",
         symbol: "btc",
