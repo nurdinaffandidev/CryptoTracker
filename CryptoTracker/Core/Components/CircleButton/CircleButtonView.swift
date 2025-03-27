@@ -29,10 +29,5 @@ struct CircleButtonView: View {
 }
 
 #Preview(traits: .sizeThatFitsLayout) {
-    Group {
-        CircleButtonView(iconName: "heart.fill")
-        CircleButtonView(iconName: "heart.fill")
-            .colorScheme(.dark)
-    }
-    
+    CircleButtonView(iconName: "heart.fill")
 }
