@@ -10,4 +10,5 @@ import Combine
 
 public protocol APIServicing {
     func getAllCoins() -> AnyPublisher<Data, Error>
+    func getCoinImage(from url: URL) -> AnyPublisher<Data, Error>
 }

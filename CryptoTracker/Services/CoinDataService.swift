@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 
+// TODO: remove unused class
 class CoinDataService {
     @Published var allCoins: [Coin] = []
     var coinSubscriptions: AnyCancellable?

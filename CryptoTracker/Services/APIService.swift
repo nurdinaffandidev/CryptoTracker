@@ -20,4 +20,8 @@ class APIService: APIServicing {
         
         return NetworkingManager.download(url: url)
     }
+    
+    public func getCoinImage(from url: URL) -> AnyPublisher<Data, Error> {
+        return NetworkingManager.download(url: url)
+    }
 }

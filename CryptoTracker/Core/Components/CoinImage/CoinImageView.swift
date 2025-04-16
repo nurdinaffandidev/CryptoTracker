@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct CoinImageView: View {
-    @StateObject var viewModel: CoinImageViewModel
+    @State var viewModel: CoinImageViewModel
     
     init(coinModel: Coin) {
-        _viewModel = StateObject(wrappedValue: .init(coinModel: coinModel))
+        _viewModel = State(wrappedValue: .init(coinModel: coinModel))
     }
     
     var body: some View {

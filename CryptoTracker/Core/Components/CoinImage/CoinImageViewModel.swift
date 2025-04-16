@@ -9,28 +9,31 @@ import Foundation
 import SwiftUI
 import Combine
 
-class CoinImageViewModel: ObservableObject {
-    @Published var image: UIImage? = nil
-    @Published var isLoading: Bool = false
+@Observable
+class CoinImageViewModel {
+    var image: UIImage? = nil
+    var isLoading: Bool = true
     
     private let coinModel: Coin
-    private let dataService: CoinImageService
+    private let service: APIServicing = APIService.shared
     private var cancellables = Set<AnyCancellable>()
     
     init(coinModel: Coin) {
         self.coinModel = coinModel
-        self.dataService = CoinImageService(coinModel: coinModel)
-        self.addSubscribers()
+        self.fetchCoinImage()
     }
     
-    private func addSubscribers() {
-        dataService.$image
-        .sink { [weak self] _ in
-            self?.isLoading = false
-        } receiveValue: { [weak self] returnedImage in
-            self?.image = returnedImage
-        }
-        .store(in: &cancellables)
-        
+    private func fetchCoinImage() {
+        guard let url = URL(string: coinModel.image) else { return }
+        service.getCoinImage(from: url)
+            .tryMap { (data) -> UIImage? in
+                return UIImage(data: data)
+            }
+            .sink(receiveCompletion: { [weak self] _ in
+                self?.isLoading = false
+            }, receiveValue: { [weak self] returnedImage in
+                self?.image = returnedImage
+            })
+            .store(in: &cancellables)
     }
 }
