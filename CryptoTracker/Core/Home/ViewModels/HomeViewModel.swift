@@ -8,22 +8,27 @@
 import Foundation
 import Combine
 
-class HomeViewModel: ObservableObject {
-    @Published var allCoins: [Coin] = []
-    @Published var portfolioCoins: [Coin] = []
+@Observable
+class HomeViewModel {
+    var allCoins: [Coin] = []
+    var portfolioCoins: [Coin] = []
+    var showAlert: Bool = false
     
-    private let dataService = CoinDataService()
+    private let service: APIServicing = APIService.shared
     private var cancellables = Set<AnyCancellable>()
     
     init() {
-        addSubscribers()
+        fetchAllCoins()
     }
     
-    func addSubscribers() {
-        dataService.$allCoins
-            .sink { [weak self] returnedCoins in
+    func fetchAllCoins() {
+        service.getAllCoins()
+            .decode(type: [Coin].self, decoder: JSONDecoder())
+            .sink(
+                receiveCompletion: NetworkingManager.handleCompletion,
+                receiveValue: { [weak self] returnedCoins in
                 self?.allCoins = returnedCoins
-            }
+            })
             .store(in: &cancellables)
     }
 }

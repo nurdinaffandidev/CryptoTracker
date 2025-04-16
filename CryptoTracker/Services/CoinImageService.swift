@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 import Combine
 
+// TODO: remove unused class
 class CoinImageService {
     @Published var image: UIImage?
     private var imageSubscription: AnyCancellable?
